@@ -1,5 +1,7 @@
 package project.perlinNoise.solution01;
 
+import java.util.Random;
+
 public class Noise {
 	
 	private int seed;
@@ -66,18 +68,21 @@ public class Noise {
 
 	
 	public static void main(String[] args) {
-		Noise noise = new Noise(0);
-		int height = 0;
-		for (int c = 0; c < 100; c++) {
-			height = (int) (noise.noise(c, 0, c) * 10);
-			height = (int) (noise.noise(c, height, c) * 10);
-			height = (int) (noise.noise(c, height, c) * 10);
-			height = (int) (noise.noise(c, height, c) * 10);
-			for (int i = 0; i < height + 20; i++) {
+		int seed = new Random().nextInt();
+		Noise noise = new Noise(seed);
+		float height = 0;
+		for (int y = 0; y < 50; y++) {
+			for (int x = 0; x < 50; x++) {
+				height = noise.interpolatedNoise(x, y);
+			}
+			
+			//Print
+			int detail = 4;
+			for (int i = 0; i < 15 + height*(10+detail); i++) {
 				System.out.print("#");
 			}
-			System.out.print("\n");
+			System.out.print("\t\t" + height + "\n");
 		}
-		
+		System.out.println("Seed = " + seed);
 	}
 }
